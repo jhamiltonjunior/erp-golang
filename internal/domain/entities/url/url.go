@@ -5,7 +5,7 @@ import "time"
 type URL struct {
 	Id             int
 	DestinationURL string
-	OriginalURL    [255]string
+	OriginalURL    string
 	UserID         int
 	CreateAt       time.Time
 	UpdateAt       time.Time

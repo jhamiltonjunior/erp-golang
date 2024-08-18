@@ -2,18 +2,28 @@ package connection
 
 import (
 	"database/sql"
-	"github.com/jhamiltonjunior/cut-url/internal/external/mysql_implement"
+	"github.com/jhamiltonjunior/cut-url/internal/domain/entities/url"
+	"github.com/jhamiltonjunior/cut-url/internal/domain/repository/url_repository"
 )
 
 type Connection interface {
-	Connection() (*sql.DB, error)
+	GetConnection() (*sql.DB, error)
 }
 
-func NewConnectionDB(data *mysql_implement.MySQLConnection) Connection {
-	return &mysql_implement.MySQLConnection{
-		Host:     data.Host,
-		User:     data.User,
-		Pass:     data.Pass,
-		Database: data.Database,
+type DBConnection struct {
+	connection url_repository.Repository
+}
+
+func NewDBConnection(conn MySQLConnection) *DBConnection {
+	return &DBConnection{
+		connection: &conn,
 	}
+}
+
+func (db *DBConnection) GetConnection() (*sql.DB, error) {
+	return db.connection.GetConnection()
+}
+
+func (db *DBConnection) CreateULR(url *url.URL) (int64, error) {
+	return db.connection.CreateULR(url)
 }
