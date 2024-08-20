@@ -52,3 +52,38 @@ func (m *MySQLConnection) CreateULR(url *url.URL) (int64, error) {
 
 	return urlId, nil
 }
+
+func (m *MySQLConnection) GetAll() ([]*url.URL, error) {
+	connection, err := m.GetConnection()
+	if err != nil {
+		panic(err)
+		return nil, err
+	}
+
+	var urlSlice []*url.URL
+	query := "SELECT id, user_id, original, destination FROM urls"
+
+	rows, err := connection.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var id, userId int
+		var original, destination string
+
+		err := rows.Scan(&id, &userId, &original, &destination)
+		if err != nil {
+			return nil, err
+		}
+
+		urlSlice = append(urlSlice, &url.URL{
+			Id:             id,
+			UserID:         userId,
+			OriginalURL:    original,
+			DestinationURL: destination,
+		})
+	}
+
+	return urlSlice, nil
+}

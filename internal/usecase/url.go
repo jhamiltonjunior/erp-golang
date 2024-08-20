@@ -15,17 +15,26 @@ func NewURLService(URLRepository url_repository.Repository) *URLUseCase {
 	}
 }
 
-func (s *URLUseCase) Create() error {
+func (uc *URLUseCase) Create() error {
 	entitiesURL := &url.URL{
 		OriginalURL:    "Origin",
 		DestinationURL: "string",
 		UserID:         1,
 	}
 
-	_, err := s.URLRepository.CreateULR(entitiesURL)
+	_, err := uc.URLRepository.CreateULR(entitiesURL)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (uc *URLUseCase) GetAll() ([]*url.URL, error) {
+	urls, err := uc.URLRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	return urls, err
 }
