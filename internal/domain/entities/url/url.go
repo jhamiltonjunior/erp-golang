@@ -4,6 +4,7 @@ import "time"
 
 type URL struct {
 	Id             int
+	Description    string
 	DestinationURL string
 	OriginalURL    string
 	UserID         int

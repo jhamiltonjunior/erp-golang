@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS urls (
         ON UPDATE CASCADE
 );
 
+ALTER TABLE urls ADD COLUMN description VARCHAR(100) NOT NULL;
+
 CREATE INDEX idx_email
     ON users(email);
 

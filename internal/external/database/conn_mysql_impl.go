@@ -53,7 +53,7 @@ func (m *MySQLConnection) CreateULR(url *url.URL) (int64, error) {
 	return urlId, nil
 }
 
-func (m *MySQLConnection) GetAll() ([]*url.URL, error) {
+func (m *MySQLConnection) GetAllByUser() ([]*url.URL, error) {
 	connection, err := m.GetConnection()
 	if err != nil {
 		panic(err)
@@ -86,4 +86,75 @@ func (m *MySQLConnection) GetAll() ([]*url.URL, error) {
 	}
 
 	return urlSlice, nil
+}
+
+func (m *MySQLConnection) GetByName(description string) ([]*url.URL, error) {
+	db, err := m.GetConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	var u []*url.URL
+
+	query := `
+			SELECT 
+			    id, original, destination, description 
+			FROM 
+			    urls 
+			WHERE 
+			    destination LIKE '%?%'
+			`
+
+	rows, err := db.Query(query, description)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var id int
+		var original, destination, desc string
+
+		err := rows.Scan(&id, &original, &destination, &desc)
+		if err != nil {
+			return nil, err
+		}
+
+		u = append(u, &url.URL{
+			Id:          id,
+			OriginalURL: original,
+			Description: desc,
+		})
+	}
+
+	return u, nil
+}
+
+func (m *MySQLConnection) UpdateById(id int, u *url.URL) error {
+	db, err := m.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	query := `UPDATE urls SET destination = ?, description = ? WHERE id = ?`
+
+	if _, err = db.Exec(query, u.DestinationURL, u.Description, id); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *MySQLConnection) DeleteById(id int) error {
+	db, err := m.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	query := `UPDATE urls SET active = 0 WHERE id = ?`
+
+	if _, err = db.Exec(query, id); err != nil {
+		return err
+	}
+
+	return nil
 }

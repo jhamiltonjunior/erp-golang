@@ -31,7 +31,7 @@ func (uc *URLUseCase) Create() error {
 }
 
 func (uc *URLUseCase) GetAll() ([]*url.URL, error) {
-	urls, err := uc.URLRepository.GetAll()
+	urls, err := uc.URLRepository.GetAllByUser()
 	if err != nil {
 		return nil, err
 	}
