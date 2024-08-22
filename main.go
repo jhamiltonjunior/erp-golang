@@ -14,6 +14,7 @@ func main() {
 
 	http.HandleFunc("/url", controller.GetAll)
 	http.HandleFunc("/url/create", controller.Create)
+	http.HandleFunc("/url/get-by-name", controller.GetByName)
 
 	fmt.Println("Run ")
 	err := http.ListenAndServe(":8080", nil)

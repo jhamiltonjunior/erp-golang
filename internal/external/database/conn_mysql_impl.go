@@ -88,13 +88,13 @@ func (m *MySQLConnection) GetAllByUser() ([]*url.URL, error) {
 	return urlSlice, nil
 }
 
-func (m *MySQLConnection) GetByName(description string) ([]*url.URL, error) {
+func (m *MySQLConnection) GetByName(description string) ([]url.URL, error) {
 	db, err := m.GetConnection()
 	if err != nil {
 		return nil, err
 	}
 
-	var u []*url.URL
+	var u []url.URL
 
 	query := `
 			SELECT 
@@ -102,10 +102,11 @@ func (m *MySQLConnection) GetByName(description string) ([]*url.URL, error) {
 			FROM 
 			    urls 
 			WHERE 
-			    destination LIKE '%?%'
+			    destination LIKE ?
+			LIMIT 20
 			`
 
-	rows, err := db.Query(query, description)
+	rows, err := db.Query(query, "%"+description+"%")
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +120,7 @@ func (m *MySQLConnection) GetByName(description string) ([]*url.URL, error) {
 			return nil, err
 		}
 
-		u = append(u, &url.URL{
+		u = append(u, url.URL{
 			Id:          id,
 			OriginalURL: original,
 			Description: desc,

@@ -30,11 +30,20 @@ func (uc *URLUseCase) Create() error {
 	return nil
 }
 
-func (uc *URLUseCase) GetAll() ([]*url.URL, error) {
+func (uc *URLUseCase) GetAllByUser() ([]*url.URL, error) {
 	urls, err := uc.URLRepository.GetAllByUser()
 	if err != nil {
 		return nil, err
 	}
 
 	return urls, err
+}
+
+func (uc *URLUseCase) GetByName(description string) ([]url.URL, error) {
+	u, err := uc.URLRepository.GetByName(description)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, nil
 }
