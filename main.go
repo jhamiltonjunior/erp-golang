@@ -13,7 +13,6 @@ func main() {
 	controller := factor.MakeURLController(conn)
 
 	http.HandleFunc("/url", controller.HandleURL)
-	http.HandleFunc("/url/", controller.Create)
 
 	fmt.Println("Run ")
 	err := http.ListenAndServe(":8080", nil)

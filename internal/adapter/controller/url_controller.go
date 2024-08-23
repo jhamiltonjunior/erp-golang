@@ -2,10 +2,8 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities/url"
 	"github.com/jhamiltonjunior/cut-url/internal/usecase"
-	"io"
 	"net/http"
 )
 
@@ -20,30 +18,19 @@ func NewURLController(services *usecase.URLUseCase) *URLController {
 }
 
 type response struct {
-	Status       string `json:"status"`
-	Message      string `json:"message"`
-	ErrorMessage string `json:"error_message"`
-}
-
-type responseError struct {
-	status  string
-	message string
-	err     error
+	Status       string    `json:"status"`
+	Message      string    `json:"message"`
+	ErrorMessage string    `json:"error_message"`
+	Data         []url.URL `json:"data"`
 }
 
 func (c *URLController) HandleURL(w http.ResponseWriter, r *http.Request) {
 
-	path := HandleUrl("/url", r.URL.Path)
-
-	methodPath := r.Method + " " + path
-
-	switch methodPath {
-	case http.MethodPost + " ":
+	switch r.Method {
+	case http.MethodPost:
 		c.Create(w, r)
-	case http.MethodGet + " /get-by-name":
+	case http.MethodGet:
 		c.GetByName(w, r)
-	case http.MethodGet + " /get-all":
-		c.GetAll(w, r)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		err := json.NewEncoder(w).Encode(map[string]string{
@@ -113,36 +100,21 @@ func (c *URLController) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
 
-	var body struct {
-		Description string
-	}
+	description, ok := query["description"]
+	if !ok {
+		resp := response{
+			Status:  "success",
+			Message: "No searchable",
+		}
 
-	println(r)
-
-	type responseError struct {
-		status  string
-		message string
-		err     error
-	}
-
-	err := json.NewDecoder(r.Body).Decode(&body)
-	if err != nil {
-		_ = json.NewEncoder(w).Encode(map[string]string{
-			"status":  "error",
-			"message": "Internal Server Error",
-		})
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(resp)
 		return
 	}
 
-	defer func(Body io.ReadCloser) {
-		err = Body.Close()
-		if err != nil {
-			fmt.Println(err)
-		}
-	}(r.Body)
-
-	u, err := c.services.GetByName(body.Description)
+	u, err := c.services.GetByName(description[0])
 	if err != nil {
 		_ = json.NewEncoder(w).Encode(map[string]error{
 			"message": err,
@@ -151,11 +123,11 @@ func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	type response struct {
-		status  string
-		message string
-		u       []url.URL
+	resp := response{
+		Status:  "success",
+		Message: http.StatusText(http.StatusOK),
+		Data:    u,
 	}
 
-	_ = json.NewEncoder(w).Encode(u)
+	_ = json.NewEncoder(w).Encode(resp)
 }

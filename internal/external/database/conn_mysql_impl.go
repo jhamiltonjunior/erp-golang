@@ -103,7 +103,7 @@ func (m *MySQLConnection) GetByName(description string) ([]url.URL, error) {
 			FROM 
 			    urls 
 			WHERE 
-			    destination LIKE ?
+			    description LIKE ?
 			LIMIT 20
 			`
 
