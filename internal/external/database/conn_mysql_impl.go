@@ -36,8 +36,9 @@ func (m *MySQLConnection) CreateULR(url *url.URL) (int64, error) {
 		return 0, err
 	}
 
-	fmt.Println("cheguei mysql")
-	query := fmt.Sprintf("INSERT INTO urls (original, destination, user_id) VALUES ('%s', '%s', '%d')", url.OriginalURL, url.DestinationURL, url.UserID)
+	query := fmt.Sprintf(
+		"INSERT INTO urls (original, destination, user_id, description) VALUES ('%s', '%s', '%d', '%s')",
+		url.OriginalURL, url.DestinationURL, url.UserID, url.Description)
 
 	exec, err := connection.Exec(query)
 	if err != nil {

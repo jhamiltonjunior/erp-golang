@@ -15,10 +15,11 @@ func NewURLService(URLRepository url_repository.Repository) *URLUseCase {
 	}
 }
 
-func (uc *URLUseCase) Create() error {
+func (uc *URLUseCase) Create(u url.URL) error {
 	entitiesURL := &url.URL{
-		OriginalURL:    "Origin",
-		DestinationURL: "string",
+		OriginalURL:    u.OriginalURL,
+		DestinationURL: u.DestinationURL,
+		Description:    u.Description,
 		UserID:         1,
 	}
 
