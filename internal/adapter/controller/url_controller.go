@@ -189,3 +189,38 @@ func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 	_ = json.NewEncoder(w).Encode(resp)
 }
+
+func (c *URLController) Delete(w http.ResponseWriter, r *http.Request) {
+	var resp response
+
+	idStr := r.PathValue("id")
+	idInt, err := strconv.Atoi(idStr)
+	if err != nil {
+		resp = response{
+			Status:  "error",
+			Message: "no searchable",
+		}
+
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(resp)
+		return
+	}
+
+	if err = c.services.Delete(idInt); err != nil {
+		resp = response{
+			Status:  "error",
+			Message: http.StatusText(http.StatusInternalServerError),
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(resp)
+		return
+	}
+
+	resp = response{
+		Status: "success",
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+	_ = json.NewEncoder(w).Encode(resp)
+}

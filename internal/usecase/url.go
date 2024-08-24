@@ -63,3 +63,12 @@ func (uc *URLUseCase) Update(ur *url.URL) error {
 
 	return nil
 }
+
+func (uc *URLUseCase) Delete(id int) error {
+	err := uc.URLRepository.DeleteById(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -18,7 +18,7 @@ func main() {
 	mux.HandleFunc("/url", controller.HandleURL)
 	mux.HandleFunc("GET /url/{user_id}", controller.GetAll)
 	mux.HandleFunc("PUT /url", controller.Update)
-	//mux.HandleFunc("DELETE /url/{id}", controller.GetAll)
+	mux.HandleFunc("DELETE /url/{id}", controller.Delete)
 
 	fmt.Println("Servidor iniciado na porta 8080")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
