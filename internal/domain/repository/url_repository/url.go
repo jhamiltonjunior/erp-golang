@@ -8,6 +8,6 @@ type Repository interface {
 	CreateULR(url *url.URL) (int64, error)
 	GetAllByUser(id int) ([]*url.URL, error)
 	GetByName(description string) ([]url.URL, error)
-	UpdateById(id int, u *url.URL) error
+	UpdateById(u *url.URL) error
 	DeleteById(id int) error
 }

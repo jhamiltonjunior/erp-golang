@@ -152,3 +152,40 @@ func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
 
 	_ = json.NewEncoder(w).Encode(resp)
 }
+
+func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
+	var resp response
+
+	var u *url.URL
+
+	err := json.NewDecoder(r.Body).Decode(&u)
+	if err != nil {
+		resp = response{
+			Status:  "error",
+			Message: http.StatusText(http.StatusInternalServerError),
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(resp)
+	}
+
+	err = c.services.Update(u)
+	if err != nil {
+		resp = response{
+			Status:  "error",
+			Message: http.StatusText(http.StatusInternalServerError),
+		}
+
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode(resp)
+		return
+	}
+
+	resp = response{
+		Status:  "success",
+		Message: http.StatusText(http.StatusNoContent),
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+	_ = json.NewEncoder(w).Encode(resp)
+}

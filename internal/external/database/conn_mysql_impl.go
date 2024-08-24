@@ -131,7 +131,7 @@ func (m *MySQLConnection) GetByName(description string) ([]url.URL, error) {
 	return u, nil
 }
 
-func (m *MySQLConnection) UpdateById(id int, u *url.URL) error {
+func (m *MySQLConnection) UpdateById(u *url.URL) error {
 	db, err := m.GetConnection()
 	if err != nil {
 		return err
@@ -139,7 +139,7 @@ func (m *MySQLConnection) UpdateById(id int, u *url.URL) error {
 
 	query := `UPDATE urls SET destination = ?, description = ? WHERE id = ?`
 
-	if _, err = db.Exec(query, u.DestinationURL, u.Description, id); err != nil {
+	if _, err = db.Exec(query, u.DestinationURL, u.Description, u.Id); err != nil {
 		return err
 	}
 

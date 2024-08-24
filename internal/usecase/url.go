@@ -48,3 +48,18 @@ func (uc *URLUseCase) GetByName(description string) ([]url.URL, error) {
 
 	return u, nil
 }
+
+func (uc *URLUseCase) Update(ur *url.URL) error {
+	u := &url.URL{
+		Id:             ur.Id,
+		Description:    ur.Description,
+		DestinationURL: ur.DestinationURL,
+	}
+
+	err := uc.URLRepository.UpdateById(u)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
