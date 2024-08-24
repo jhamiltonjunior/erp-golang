@@ -7,16 +7,20 @@ import (
 	"net/http"
 )
 
+// export GODEBUG=httpmuxgo121=0
 func main() {
+
+	var mux = http.NewServeMux()
 
 	conn := connection.NewMySQLURLRepository("root:0000@tcp(localhost:3306)/cut_url")
 	controller := factor.MakeURLController(conn)
 
-	http.HandleFunc("/url", controller.HandleURL)
+	mux.HandleFunc("/url", controller.HandleURL)
+	mux.HandleFunc("GET /url/{user_id}", controller.GetAll)
+	mux.HandleFunc("DELETE /url/{id}", controller.GetAll)
 
-	fmt.Println("Run ")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		return
+	fmt.Println("Servidor iniciado na porta 8080")
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		fmt.Println("Erro ao iniciar o servidor:", err)
 	}
 }

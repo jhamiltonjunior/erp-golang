@@ -31,8 +31,8 @@ func (uc *URLUseCase) Create(u url.URL) error {
 	return nil
 }
 
-func (uc *URLUseCase) GetAllByUser() ([]*url.URL, error) {
-	urls, err := uc.URLRepository.GetAllByUser()
+func (uc *URLUseCase) GetAllByUser(id int) ([]*url.URL, error) {
+	urls, err := uc.URLRepository.GetAllByUser(id)
 	if err != nil {
 		return nil, err
 	}

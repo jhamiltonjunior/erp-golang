@@ -2,9 +2,11 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities/url"
 	"github.com/jhamiltonjunior/cut-url/internal/usecase"
 	"net/http"
+	"strconv"
 )
 
 type URLController struct {
@@ -18,10 +20,10 @@ func NewURLController(services *usecase.URLUseCase) *URLController {
 }
 
 type response struct {
-	Status       string    `json:"status"`
-	Message      string    `json:"message"`
-	ErrorMessage string    `json:"error_message"`
-	Data         []url.URL `json:"data"`
+	Status       string `json:"status"`
+	Message      string `json:"message"`
+	ErrorMessage string `json:"error_message"`
+	Data         any    `json:"data"`
 }
 
 func (c *URLController) HandleURL(w http.ResponseWriter, r *http.Request) {
@@ -82,21 +84,40 @@ func (c *URLController) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *URLController) GetAll(w http.ResponseWriter, r *http.Request) {
-	u, err := c.services.GetAllByUser()
+	var resp response
+
+	id := r.PathValue("user_id")
+	idI, err := strconv.Atoi(id)
+
+	fmt.Println(idI)
+	fmt.Println(err)
+
 	if err != nil {
-		err = json.NewEncoder(w).Encode(map[string]string{
+		resp = response{
+			Status:  "Internal Server Error",
+			Message: "No searchable",
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(resp)
+
+		return
+	}
+
+	u, err := c.services.GetAllByUser(idI)
+	if err != nil {
+		_ = json.NewEncoder(w).Encode(map[string]string{
 			"status":  "Internal Server Error",
 			"message": "Nao foi possivel Pegar os dados.",
 		})
-		if err != nil {
-			return
-		}
 	}
 
-	err = json.NewEncoder(w).Encode(&u)
-	if err != nil {
-		panic(err)
+	resp = response{
+		Status:  "success",
+		Message: http.StatusText(http.StatusOK),
+		Data:    u,
 	}
+
+	_ = json.NewEncoder(w).Encode(resp)
 }
 
 func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {

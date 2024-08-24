@@ -54,7 +54,7 @@ func (m *MySQLConnection) CreateULR(url *url.URL) (int64, error) {
 	return urlId, nil
 }
 
-func (m *MySQLConnection) GetAllByUser() ([]*url.URL, error) {
+func (m *MySQLConnection) GetAllByUser(id int) ([]*url.URL, error) {
 	connection, err := m.GetConnection()
 	if err != nil {
 		panic(err)
@@ -62,9 +62,9 @@ func (m *MySQLConnection) GetAllByUser() ([]*url.URL, error) {
 	}
 
 	var urlSlice []*url.URL
-	query := "SELECT id, user_id, original, destination FROM urls"
+	query := "SELECT id, user_id, original, destination FROM urls WHERE user_id = ?"
 
-	rows, err := connection.Query(query)
+	rows, err := connection.Query(query, id)
 	if err != nil {
 		return nil, err
 	}
