@@ -1318,7 +1318,7 @@
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <schema id="509" parent="1" name="cut_url">
-      <LastIntrospectionLocalTimestamp>2024-08-25.02:46:57</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-08-25.10:21:48</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <schema id="510" parent="1" name="information_schema">

@@ -11,6 +11,9 @@ func (m *Connection) CreateUser(user entities.User) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	user.Password, err = m.hashManager.Encrypt(user.Password)
 	if err != nil {
@@ -91,6 +94,9 @@ func (m *Connection) Auth(user entities.User) (*entities.User, error) {
 }
 
 func (m *Connection) UpdateUser(user entities.User) error {
+
+	//atualizar nome e senha, criar um Encrypt para a senha tbm
+
 	return nil
 }
 

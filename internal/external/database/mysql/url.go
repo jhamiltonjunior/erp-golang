@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities/url"
 )
@@ -11,7 +12,9 @@ func (m *Connection) CreateULR(url *url.URL) (int64, error) {
 		panic(err)
 		return 0, err
 	}
-
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(connection)
 	query := fmt.Sprintf(
 		"INSERT INTO urls (original, destination, user_id, description) VALUES ('%s', '%s', '%d', '%s')",
 		url.OriginalURL, url.DestinationURL, url.UserID, url.Description)
@@ -36,6 +39,9 @@ func (m *Connection) GetAllByUser(id int) ([]*url.URL, error) {
 		panic(err)
 		return nil, err
 	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(connection)
 
 	var urlSlice []*url.URL
 	query := `
@@ -77,6 +83,9 @@ func (m *Connection) GetByName(description string) ([]url.URL, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	var u []url.URL
 
@@ -120,6 +129,9 @@ func (m *Connection) UpdateById(u *url.URL) error {
 	if err != nil {
 		return err
 	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	query := `UPDATE urls SET destination = ?, description = ? WHERE id = ?`
 
@@ -135,6 +147,9 @@ func (m *Connection) DeleteById(id int) error {
 	if err != nil {
 		return err
 	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	query := `UPDATE urls SET active = 0 WHERE id = ?`
 

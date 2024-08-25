@@ -1,6 +1,6 @@
 module github.com/jhamiltonjunior/cut-url
 
-go 1.19
+go 1.23
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
