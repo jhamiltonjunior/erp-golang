@@ -35,7 +35,9 @@ func (m *Connection) CreateUser(user entities.User) (entities.UserID, error) {
 	return entities.UserID(id), nil
 }
 
-func (m *Connection) GetUserByID(user entities.User) (*entities.User, error) {
+func (m *Connection) GetUserByID(id entities.UserID) (*entities.User, error) {
+	var user entities.User
+
 	db, err := m.GetConnection()
 	if err != nil {
 		return nil, err
@@ -54,7 +56,7 @@ func (m *Connection) GetUserByID(user entities.User) (*entities.User, error) {
 		AND active = 1
 	`
 
-	err = db.QueryRow(query, user.ID).Scan(&user.Name, &user.Email, &user.Password, &user.CreateAt)
+	err = db.QueryRow(query, id).Scan(&user.Name, &user.Email, &user.Password, &user.CreateAt)
 	if err != nil {
 		return nil, err
 	}
@@ -63,6 +65,8 @@ func (m *Connection) GetUserByID(user entities.User) (*entities.User, error) {
 }
 
 func (m *Connection) Auth(user entities.User) (*entities.User, error) {
+	// para um sistema maior as permissoes deveriam vim do banco de dados
+
 	db, err := m.GetConnection()
 	if err != nil {
 		return nil, err
