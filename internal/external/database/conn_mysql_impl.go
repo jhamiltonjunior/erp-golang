@@ -62,7 +62,14 @@ func (m *MySQLConnection) GetAllByUser(id int) ([]*url.URL, error) {
 	}
 
 	var urlSlice []*url.URL
-	query := "SELECT id, user_id, original, destination FROM urls WHERE user_id = ?"
+	query := `
+		SELECT 
+    		id, user_id, original, destination
+		FROM
+		    urls 
+		WHERE user_id = ?
+		AND active = 1
+`
 
 	rows, err := connection.Query(query, id)
 	if err != nil {
@@ -104,6 +111,7 @@ func (m *MySQLConnection) GetByName(description string) ([]url.URL, error) {
 			    urls 
 			WHERE 
 			    description LIKE ?
+				AND active = 1
 			LIMIT 20
 			`
 
