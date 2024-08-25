@@ -31,3 +31,8 @@ CREATE INDEX idx_email
 
 # CREATE INDEX idx_destination
 #     ON urls(destination);
+
+ALTER TABLE users
+    ADD COLUMN password VARCHAR(100) NOT NULL,
+    ADD COLUMN deleted_at DATETIME NULL,
+    ADD COLUMN updated_at DATETIME NULL;

@@ -3,14 +3,16 @@ package mysql
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jhamiltonjunior/cut-url/internal/domain/repository"
+	"github.com/jhamiltonjunior/cut-url/internal/domain/repository/url_repository"
 )
 
 type Connection struct {
-	Dsn string
+	dsn string
 }
 
 func (m *Connection) GetConnection() (*sql.DB, error) {
-	db, err := sql.Open("mysql", m.Dsn)
+	db, err := sql.Open("mysql", m.dsn)
 	if err != nil {
 		return nil, err
 	}
@@ -20,4 +22,12 @@ func (m *Connection) GetConnection() (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func NewMySQLURLRepository(dsn string) url_repository.Repository {
+	return &Connection{dsn: dsn}
+}
+
+func NewMySQLUserRepository(dsn string) repository.User {
+	return &Connection{dsn: dsn}
 }

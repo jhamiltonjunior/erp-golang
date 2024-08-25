@@ -2,10 +2,10 @@ package repository
 
 import "github.com/jhamiltonjunior/cut-url/internal/domain/entities"
 
-type UserRepository interface {
-	Create(user *entities.User) (int, error)
-	GetByID(user *entities.User) (*entities.User, error)
+type User interface {
+	CreateUser(user entities.User) (int64, error)
+	GetUserByID(user entities.User) (*entities.User, error)
 	Auth(user entities.User) (*entities.User, error)
-	Update(user entities.User) error
-	Delete(user entities.User) error
+	UpdateUser(user entities.User) error
+	DeleteUser(user entities.User) error
 }

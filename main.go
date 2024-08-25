@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	connection "github.com/jhamiltonjunior/cut-url/internal/external/database"
+	connection "github.com/jhamiltonjunior/cut-url/internal/external/database/mysql"
 	"github.com/jhamiltonjunior/cut-url/internal/external/factor"
 	"net/http"
 )

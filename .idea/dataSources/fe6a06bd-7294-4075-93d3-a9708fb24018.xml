@@ -1318,7 +1318,7 @@
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <schema id="509" parent="1" name="cut_url">
-      <LastIntrospectionLocalTimestamp>2024-08-23.22:51:38</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-08-25.02:46:57</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <schema id="510" parent="1" name="information_schema">
@@ -1454,12 +1454,25 @@
       <Position>5</Position>
       <StoredType>tinyint(1)|0s</StoredType>
     </column>
-    <index id="541" parent="524" name="PRIMARY">
+    <column id="541" parent="524" name="password">
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StoredType>varchar(100)|0s</StoredType>
+    </column>
+    <column id="542" parent="524" name="deleted_at">
+      <Position>7</Position>
+      <StoredType>datetime|0s</StoredType>
+    </column>
+    <column id="543" parent="524" name="updated_at">
+      <Position>8</Position>
+      <StoredType>datetime|0s</StoredType>
+    </column>
+    <index id="544" parent="524" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="542" parent="524" name="PRIMARY">
+    <key id="545" parent="524" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
