@@ -94,12 +94,59 @@ func (m *Connection) Auth(user entities.User) (*entities.User, error) {
 }
 
 func (m *Connection) UpdateUser(user entities.User) error {
+	db, err := m.GetConnection()
+	if err != nil {
+		return err
+	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
-	//atualizar nome e senha, criar um Encrypt para a senha tbm
+	query := `
+		UPDATE 
+		    users 
+		SET
+		    name = ?,
+		    password = ?
+		WHERE
+		    id = ?
+	`
+
+	newHash, err := m.hashManager.Encrypt(user.Password)
+	if err != nil {
+		return err
+	}
+
+	err = db.QueryRow(query, user.Name, newHash, user.ID).Scan()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
 func (m *Connection) DeleteUser(user entities.User) error {
+	db, err := m.GetConnection()
+	if err != nil {
+		return err
+	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
+
+	query := `
+		UPDATE 
+		    users 
+		SET
+		    active = 0
+		WHERE
+		    id = ?
+	`
+
+	err = db.QueryRow(query, user.ID).Scan()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
