@@ -2,8 +2,10 @@ package entities
 
 import "time"
 
+type UserID int64
+
 type User struct {
-	ID       int       `json:"user_id"`
+	ID       int64     `json:"user_id"`
 	Name     string    `json:"name"`
 	Email    string    `json:"email"`
 	Password string    `json:"-"`

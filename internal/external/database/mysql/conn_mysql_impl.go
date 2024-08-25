@@ -30,6 +30,6 @@ func NewMySQLURLRepository(dsn string) url_repository.Repository {
 	return &Connection{dsn: dsn}
 }
 
-func NewMySQLUserRepository(dsn string, hash *interfaces_usecase.Hash) repository.User {
-	return &Connection{dsn: dsn, hashManager: *hash}
+func NewMySQLUserRepository(dsn string, hash interfaces_usecase.Hash) repository.User {
+	return &Connection{dsn: dsn, hashManager: hash}
 }

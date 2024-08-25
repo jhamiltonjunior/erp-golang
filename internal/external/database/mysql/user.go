@@ -6,7 +6,7 @@ import (
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
 )
 
-func (m *Connection) CreateUser(user entities.User) (int64, error) {
+func (m *Connection) CreateUser(user entities.User) (entities.UserID, error) {
 	db, err := m.GetConnection()
 	if err != nil {
 		return 0, err
@@ -32,7 +32,7 @@ func (m *Connection) CreateUser(user entities.User) (int64, error) {
 		return 0, nil
 	}
 
-	return id, nil
+	return entities.UserID(id), nil
 }
 
 func (m *Connection) GetUserByID(user entities.User) (*entities.User, error) {
