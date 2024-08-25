@@ -3,10 +3,16 @@ package mysql
 import (
 	"errors"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
+	"github.com/jhamiltonjunior/cut-url/internal/external/service"
 )
 
 func (m *Connection) CreateUser(user entities.User) (int64, error) {
 	db, err := m.GetConnection()
+	if err != nil {
+		return 0, err
+	}
+
+	user.Password, err = service.Encrypt(user.Password)
 	if err != nil {
 		return 0, err
 	}

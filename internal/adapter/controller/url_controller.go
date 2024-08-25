@@ -10,12 +10,12 @@ import (
 )
 
 type URLController struct {
-	services *usecase.URLUseCase
+	usecase *usecase.URLUseCase
 }
 
-func NewURLController(services *usecase.URLUseCase) *URLController {
+func NewURLController(usecase *usecase.URLUseCase) *URLController {
 	return &URLController{
-		services: services,
+		usecase: usecase,
 	}
 }
 
@@ -61,7 +61,7 @@ func (c *URLController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = c.services.Create(u)
+	err = c.usecase.Create(u)
 	if err != nil {
 		resp = response{
 			Status:       "error",
@@ -103,7 +103,7 @@ func (c *URLController) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, err := c.services.GetAllByUser(idI)
+	u, err := c.usecase.GetAllByUser(idI)
 	if err != nil {
 		_ = json.NewEncoder(w).Encode(map[string]string{
 			"status":  "Internal Server Error",
@@ -135,7 +135,7 @@ func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, err := c.services.GetByName(description[0])
+	u, err := c.usecase.GetByName(description[0])
 	if err != nil {
 		_ = json.NewEncoder(w).Encode(map[string]error{
 			"message": err,
@@ -169,7 +169,7 @@ func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
 		_ = json.NewEncoder(w).Encode(resp)
 	}
 
-	err = c.services.Update(u)
+	err = c.usecase.Update(u)
 	if err != nil {
 		resp = response{
 			Status:  "error",
@@ -206,7 +206,7 @@ func (c *URLController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = c.services.Delete(idInt); err != nil {
+	if err = c.usecase.Delete(idInt); err != nil {
 		resp = response{
 			Status:  "error",
 			Message: http.StatusText(http.StatusInternalServerError),
