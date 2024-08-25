@@ -5,10 +5,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/repository"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/repository/url_repository"
+	"github.com/jhamiltonjunior/cut-url/internal/usecase"
 )
 
 type Connection struct {
-	dsn string
+	dsn         string
+	hashManager usecase.Hash
 }
 
 func (m *Connection) GetConnection() (*sql.DB, error) {
@@ -28,6 +30,6 @@ func NewMySQLURLRepository(dsn string) url_repository.Repository {
 	return &Connection{dsn: dsn}
 }
 
-func NewMySQLUserRepository(dsn string) repository.User {
-	return &Connection{dsn: dsn}
+func NewMySQLUserRepository(dsn string, hash *usecase.Hash) repository.User {
+	return &Connection{dsn: dsn, hashManager: *hash}
 }

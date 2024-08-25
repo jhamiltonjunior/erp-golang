@@ -2,7 +2,9 @@ package service
 
 import "golang.org/x/crypto/bcrypt"
 
-func Encrypt(str string) (string, error) {
+type Bcrypt struct{}
+
+func (h *Bcrypt) Encrypt(str string) (string, error) {
 	bytes := []byte(str)
 
 	bytes, err := bcrypt.GenerateFromPassword(bytes, 10)
@@ -15,7 +17,7 @@ func Encrypt(str string) (string, error) {
 	return str, nil
 }
 
-func Compare(str string, hash string) bool {
+func (h *Bcrypt) Compare(str string, hash string) bool {
 	strBytes := []byte(str)
 	hashBytes := []byte(hash)
 

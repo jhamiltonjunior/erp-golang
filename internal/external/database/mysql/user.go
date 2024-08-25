@@ -1,9 +1,9 @@
 package mysql
 
 import (
+	"database/sql"
 	"errors"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
-	"github.com/jhamiltonjunior/cut-url/internal/external/service"
 )
 
 func (m *Connection) CreateUser(user entities.User) (int64, error) {
@@ -12,7 +12,7 @@ func (m *Connection) CreateUser(user entities.User) (int64, error) {
 		return 0, err
 	}
 
-	user.Password, err = service.Encrypt(user.Password)
+	user.Password, err = m.hashManager.Encrypt(user.Password)
 	if err != nil {
 		return 0, err
 	}
@@ -37,6 +37,9 @@ func (m *Connection) GetUserByID(user entities.User) (*entities.User, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
 
 	query := `
 		SELECT 
@@ -57,7 +60,34 @@ func (m *Connection) GetUserByID(user entities.User) (*entities.User, error) {
 }
 
 func (m *Connection) Auth(user entities.User) (*entities.User, error) {
-	return nil, errors.New("")
+	db, err := m.GetConnection()
+	if err != nil {
+		return nil, err
+	}
+	defer func(db *sql.DB) {
+		_ = db.Close()
+	}(db)
+
+	query := `
+		SELECT
+			id, password
+		FROM
+			users
+		WHERE
+		    email = ?
+	`
+	var hash string
+
+	err = db.QueryRow(query, user.Email).Scan(&user.ID, &hash)
+	if err != nil {
+		return nil, err
+	}
+
+	if !m.hashManager.Compare(user.Password, hash) {
+		return nil, errors.New("incorrect password")
+	}
+
+	return &user, nil
 }
 
 func (m *Connection) UpdateUser(user entities.User) error {

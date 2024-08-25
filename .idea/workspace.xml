@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7e8cdf10-f64c-4ec4-be55-e1935e3b10a5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/internal/external/service/encrypt_decrypt.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/external/service/jwt.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/adapter/controller/url_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/adapter/controller/url_controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/external/database/mysql/conn_mysql_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/external/database/mysql/conn_mysql_impl.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/external/database/mysql/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/external/database/mysql/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp/build-errors.log" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/build-errors.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp/main" beforeDir="false" afterPath="$PROJECT_DIR$/tmp/main" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/external/service/auth_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/external/service/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/external/service/manage_password.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/external/service/bcrypt.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
