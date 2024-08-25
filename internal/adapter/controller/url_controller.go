@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/jhamiltonjunior/cut-url/internal/domain/entities/url"
 	"github.com/jhamiltonjunior/cut-url/internal/usecase"
 	"net/http"
@@ -17,13 +16,6 @@ func NewURLController(usecase *usecase.URLUseCase) *URLController {
 	return &URLController{
 		usecase: usecase,
 	}
-}
-
-type response struct {
-	Status       string `json:"status"`
-	Message      string `json:"message"`
-	ErrorMessage string `json:"error_message"`
-	Data         any    `json:"data"`
 }
 
 func (c *URLController) HandleURL(w http.ResponseWriter, r *http.Request) {
@@ -47,11 +39,11 @@ func (c *URLController) HandleURL(w http.ResponseWriter, r *http.Request) {
 
 func (c *URLController) Create(w http.ResponseWriter, r *http.Request) {
 	var u url.URL
-	var resp response
+	var resp Response
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		resp = response{
+		resp = Response{
 			Status:  "error",
 			Message: err.Error(),
 		}
@@ -63,7 +55,7 @@ func (c *URLController) Create(w http.ResponseWriter, r *http.Request) {
 
 	err = c.usecase.Create(u)
 	if err != nil {
-		resp = response{
+		resp = Response{
 			Status:       "error",
 			Message:      "Internal Server Error",
 			ErrorMessage: err.Error(),
@@ -73,7 +65,7 @@ func (c *URLController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp = response{
+	resp = Response{
 		Status:  "success",
 		Message: "created",
 	}
@@ -84,16 +76,13 @@ func (c *URLController) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *URLController) GetAll(w http.ResponseWriter, r *http.Request) {
-	var resp response
+	var resp Response
 
 	id := r.PathValue("user_id")
 	idI, err := strconv.Atoi(id)
 
-	fmt.Println(idI)
-	fmt.Println(err)
-
 	if err != nil {
-		resp = response{
+		resp = Response{
 			Status:  "Internal Server Error",
 			Message: "No searchable",
 		}
@@ -111,7 +100,7 @@ func (c *URLController) GetAll(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	resp = response{
+	resp = Response{
 		Status:  "success",
 		Message: http.StatusText(http.StatusOK),
 		Data:    u,
@@ -125,7 +114,7 @@ func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
 
 	description, ok := query["description"]
 	if !ok {
-		resp := response{
+		resp := Response{
 			Status:  "success",
 			Message: "No searchable",
 		}
@@ -144,7 +133,7 @@ func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := response{
+	resp := Response{
 		Status:  "success",
 		Message: http.StatusText(http.StatusOK),
 		Data:    u,
@@ -154,13 +143,13 @@ func (c *URLController) GetByName(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
-	var resp response
+	var resp Response
 
 	var u *url.URL
 
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
-		resp = response{
+		resp = Response{
 			Status:  "error",
 			Message: http.StatusText(http.StatusInternalServerError),
 		}
@@ -171,7 +160,7 @@ func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
 
 	err = c.usecase.Update(u)
 	if err != nil {
-		resp = response{
+		resp = Response{
 			Status:  "error",
 			Message: http.StatusText(http.StatusInternalServerError),
 		}
@@ -181,7 +170,7 @@ func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp = response{
+	resp = Response{
 		Status:  "success",
 		Message: http.StatusText(http.StatusNoContent),
 	}
@@ -191,12 +180,12 @@ func (c *URLController) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func (c *URLController) Delete(w http.ResponseWriter, r *http.Request) {
-	var resp response
+	var resp Response
 
 	idStr := r.PathValue("id")
 	idInt, err := strconv.Atoi(idStr)
 	if err != nil {
-		resp = response{
+		resp = Response{
 			Status:  "error",
 			Message: "no searchable",
 		}
@@ -207,7 +196,7 @@ func (c *URLController) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = c.usecase.Delete(idInt); err != nil {
-		resp = response{
+		resp = Response{
 			Status:  "error",
 			Message: http.StatusText(http.StatusInternalServerError),
 		}
@@ -217,7 +206,7 @@ func (c *URLController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp = response{
+	resp = Response{
 		Status: "success",
 	}
 

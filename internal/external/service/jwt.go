@@ -18,10 +18,14 @@ func (t *JWT) GenerateToken(id entities.UserID, roles []string, permissions map[
 		"permissions": permissions,
 	})
 
-	tokenString, err := token.SignedString(os.Getenv("JWT_SECRET_KEY"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 	if err != nil {
 		return "", err
 	}
 
 	return tokenString, nil
+}
+
+func (t *JWT) ValidateToken() {
+
 }

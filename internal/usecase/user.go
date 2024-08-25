@@ -11,16 +11,17 @@ type User struct {
 	tokenManager interfaces_usecase.Token
 }
 
-func NewUserUseCase(repo repository.User) *User {
+func NewUserUseCase(repo repository.User, tokenManager interfaces_usecase.Token) *User {
 	return &User{
-		repo: repo,
+		repo:         repo,
+		tokenManager: tokenManager,
 	}
 }
 
 func (u *User) Create(user entities.User) (string, error) {
 	id, err := u.repo.CreateUser(user)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	roles := []string{

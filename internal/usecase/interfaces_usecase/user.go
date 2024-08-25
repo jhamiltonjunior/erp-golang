@@ -9,5 +9,5 @@ type Hash interface {
 
 type Token interface {
 	GenerateToken(user entities.UserID, roles []string, permissions map[string]string) (string, error)
-	Validatetoken()
+	ValidateToken()
 }
