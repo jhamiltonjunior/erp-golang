@@ -85,3 +85,14 @@ func (u *User) Auth(user *entities.User) (string, error) {
 
 	return token, nil
 }
+
+func (u *User) Delete(id entities.UserID) error {
+	// usuarios devem deletar somente a si mesmos a menos que sejam admin
+
+	err := u.repo.DeleteUser(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

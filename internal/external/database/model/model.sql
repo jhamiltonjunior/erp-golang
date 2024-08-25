@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
     active TINYINT(1) NOT NULL DEFAULT 1
 );
 
+
+A PK deveria ser uma hash de 16 caracteres variantes
 CREATE TABLE IF NOT EXISTS urls (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     original VARCHAR(255) NOT NULL,

@@ -129,7 +129,7 @@ func (m *Connection) UpdateUser(user entities.User) error {
 	return nil
 }
 
-func (m *Connection) DeleteUser(user entities.User) error {
+func (m *Connection) DeleteUser(id entities.UserID) error {
 	db, err := m.GetConnection()
 	if err != nil {
 		return err
@@ -147,7 +147,7 @@ func (m *Connection) DeleteUser(user entities.User) error {
 		    id = ?
 	`
 
-	err = db.QueryRow(query, user.ID).Scan()
+	err = db.QueryRow(query, id).Scan()
 	if err != nil {
 		return err
 	}

@@ -7,6 +7,7 @@
     <list default="true" id="7e8cdf10-f64c-4ec4-be55-e1935e3b10a5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/domain/repository/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/repository/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/external/database/model/model.sql" beforeDir="false" afterPath="$PROJECT_DIR$/internal/external/database/model/model.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/external/database/mysql/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/external/database/mysql/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/usecase/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/user.go" afterDir="false" />
     </list>
@@ -71,8 +72,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-5df93f7ad4aa-dfc284eb1eb8-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.20224.306" />
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-GO-242.20224.306" />
+        <option value="bundled-gosdk-5df93f7ad4aa-dfc284eb1eb8-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-242.20224.424" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-GO-242.20224.424" />
       </set>
     </attachedChunks>
   </component>
