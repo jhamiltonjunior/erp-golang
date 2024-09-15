@@ -2,8 +2,8 @@ package controller
 
 import (
 	"encoding/json"
-	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
-	"github.com/jhamiltonjunior/cut-url/internal/usecase"
+	"github.com/jhamiltonjunior/erp-golang/internal/domain/entities"
+	"github.com/jhamiltonjunior/erp-golang/internal/usecase"
 	"net/http"
 )
 

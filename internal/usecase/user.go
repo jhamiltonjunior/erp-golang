@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
-	"github.com/jhamiltonjunior/cut-url/internal/domain/repository"
-	"github.com/jhamiltonjunior/cut-url/internal/usecase/interfaces_usecase"
+	"github.com/jhamiltonjunior/erp-golang/internal/domain/entities"
+	"github.com/jhamiltonjunior/erp-golang/internal/domain/repository"
+	"github.com/jhamiltonjunior/erp-golang/internal/usecase/interfaces_usecase"
 )
 
 type User struct {

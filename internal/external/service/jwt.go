@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
+	"github.com/jhamiltonjunior/erp-golang/internal/domain/entities"
 	"os"
 	"time"
 )

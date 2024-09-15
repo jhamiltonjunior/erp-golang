@@ -3,7 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"errors"
-	"github.com/jhamiltonjunior/cut-url/internal/domain/entities"
+	"github.com/jhamiltonjunior/erp-golang/internal/domain/entities"
 )
 
 func (m *Connection) CreateUser(user entities.User) (entities.UserID, error) {

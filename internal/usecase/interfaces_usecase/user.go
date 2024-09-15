@@ -1,6 +1,6 @@
 package interfaces_usecase
 
-import "github.com/jhamiltonjunior/cut-url/internal/domain/entities"
+import "github.com/jhamiltonjunior/erp-golang/internal/domain/entities"
 
 type Hash interface {
 	Encrypt(pass string) (string, error)

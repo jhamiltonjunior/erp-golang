@@ -3,9 +3,8 @@ package mysql
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jhamiltonjunior/cut-url/internal/domain/repository"
-	"github.com/jhamiltonjunior/cut-url/internal/domain/repository/url_repository"
-	"github.com/jhamiltonjunior/cut-url/internal/usecase/interfaces_usecase"
+	"github.com/jhamiltonjunior/erp-golang/internal/domain/repository"
+	"github.com/jhamiltonjunior/erp-golang/internal/usecase/interfaces_usecase"
 )
 
 type Connection struct {
@@ -24,10 +23,6 @@ func (m *Connection) GetConnection() (*sql.DB, error) {
 	}
 
 	return db, nil
-}
-
-func NewMySQLURLRepository(dsn string) url_repository.Repository {
-	return &Connection{dsn: dsn}
 }
 
 func NewMySQLUserRepository(dsn string, hash interfaces_usecase.Hash) repository.User {

@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/jhamiltonjunior/cut-url/internal/domain/entities"
+import "github.com/jhamiltonjunior/erp-golang/internal/domain/entities"
 
 type User interface {
 	CreateUser(user entities.User) (entities.UserID, error)
